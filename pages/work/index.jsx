@@ -252,7 +252,7 @@ const Work = () => {
       tasks: [
         "réalisation du projet",
         "Montage vidéo",
-        "Tournage et réalisation",
+        "Tournage et réalisation"
       ]
     },
     { 
@@ -277,7 +277,7 @@ const Work = () => {
       tasks: [
         "Tournage et réalisation",
         "Montage vidéo",
-        "Création d'animations graphiques",
+        "Création d'animations graphiques"
       ]
     },
     
@@ -335,7 +335,7 @@ const Work = () => {
         "Montage vidéo",
         "Ecriture du script",
         "Apparition dans la vidéo (Sid Jamyl)"
-              ]
+      ]
     },
     { 
       src: "/29.mp4", 
@@ -372,17 +372,19 @@ const Work = () => {
   const { videos: allVideos, isLoading } = useCloudinaryVideos(videosData);
 
   // Utilisation de useState pour la vidéo actuellement affichée
-  const [currentVideo, setCurrentVideo] = React.useState(allVideos[0]);
+  const [currentVideo, setCurrentVideo] = React.useState(null);
   const [videoIndex, setVideoIndex] = React.useState(0);
   
   // Navigation
   const goLeft = () => {
+    if (!allVideos || allVideos.length === 0) return;
     const newIndex = (videoIndex - 1 + allVideos.length) % allVideos.length;
     setVideoIndex(newIndex);
     setCurrentVideo(allVideos[newIndex]);
   };
   
   const goRight = () => {
+    if (!allVideos || allVideos.length === 0) return;
     const newIndex = (videoIndex + 1) % allVideos.length;
     setVideoIndex(newIndex);
     setCurrentVideo(allVideos[newIndex]);
@@ -390,7 +392,7 @@ const Work = () => {
 
   // Si les données sont en cours de chargement, afficher un indicateur
   React.useEffect(() => {
-    if (!isLoading && allVideos.length > 0) {
+    if (!isLoading && allVideos && allVideos.length > 0) {
       setCurrentVideo(allVideos[videoIndex]);
     }
   }, [isLoading, allVideos, videoIndex]);
@@ -498,6 +500,41 @@ const Work = () => {
         marginTop: '20px',
         padding: '0 20px'
       }}>
+        {/* Indicateur de chargement global */}
+        {isLoading && (
+          <div style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(10, 10, 26, 0.8)',
+            zIndex: 1000,
+            borderRadius: '20px'
+          }}>
+            <div style={{ 
+              width: '60px', 
+              height: '60px', 
+              border: '4px solid rgba(196,130,252,0.3)',
+              borderTop: '4px solid rgba(196,130,252,1)',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              marginBottom: '20px'
+            }}></div>
+            <p style={{ color: 'white', fontSize: '18px' }}>Chargement des vidéos...</p>
+            <style jsx>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
+          </div>
+        )}
+        
         {/* Éléments décoratifs autour de la vidéo */}
         <div style={{ 
           position: 'absolute', 
@@ -521,383 +558,401 @@ const Work = () => {
         }}></div>
 
         {/* Boutons de navigation repositionnés pour la nouvelle mise en page */}
-        <button
-          onClick={goLeft}
-          aria-label="Précédent"
-          style={{
-            position: 'absolute',
-            left: '25%',
-            top: '280px',
-            transform: 'translateX(-50%)',
-            zIndex: 100,
-            background: 'rgba(0,0,0,0.5)',
-            border: 'none',
-            width: 54,
-            height: 54,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            outline: 'none',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(196,130,252,0.3)';
-            e.currentTarget.style.transform = 'translateX(-50%) scale(1.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
-            e.currentTarget.style.transform = 'translateX(-50%) scale(1)';
-          }}
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-        <button
-          onClick={goRight}
-          aria-label="Suivant"
-          style={{
-            position: 'absolute',
-            right: '25%',
-            top: '280px',
-            transform: 'translateX(50%)',
-            zIndex: 100,
-            background: 'rgba(0,0,0,0.5)',
-            border: 'none',
-            width: 54,
-            height: 54,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            outline: 'none',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(196,130,252,0.3)';
-            e.currentTarget.style.transform = 'translateX(50%) scale(1.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
-            e.currentTarget.style.transform = 'translateX(50%) scale(1)';
-          }}
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 6 15 12 9 18" />
-          </svg>
-        </button>
-
-        {/* Mise en page pour le lecteur principal et les détails */}
-        <div style={{ 
-          width: '100%', 
-          maxWidth: '800px', 
-          display: 'flex', 
-          flexDirection: 'row', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          flexWrap: 'wrap',
-          gap: '30px'
-        }}>
-          {/* Vidéo centrale */}
-          <div style={{ width: 320, height: 560, position: 'relative', zIndex: 2 }}>
-            <CarouselVideo
-              video={currentVideo}
-              isActive={true}
-              style={{ width: 320, height: 560, boxShadow: '0 8px 32px rgba(52,58,64,0.18)' }}
-            />
-          </div>
-          
-          {/* Section des détails du projet */}
-          <div style={{ 
-            width: '300px', 
-            padding: '25px', 
-            background: 'rgba(15,15,26,0.5)', 
-            borderRadius: '20px',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-            color: 'white'
-          }}>
-            <h3 style={{ 
-              fontSize: '1.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '15px',
-              color: '#c482fc'
-            }}>
-              {currentVideo.fullTitle || currentVideo.description}
-            </h3>
-            
-            <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '15px 0' }}></div>
-            
-            <h4 style={{ 
-              fontSize: '1.1rem', 
-              fontWeight: 'bold', 
-              marginBottom: '10px',
-              color: '#ffffff'
-            }}>
-              Tâches réalisées:
-            </h4>
-            
-            <ul style={{ 
-              listStyleType: 'none', 
-              padding: '0', 
-              margin: '0' 
-            }}>
-              {/* Tâches spécifiques à la vidéo actuelle */}
-              {currentVideo.tasks && currentVideo.tasks.map((task, index) => (
-                <li key={index} style={{ 
-                  margin: '8px 0', 
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '10px'
-                }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c482fc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '3px', flexShrink: 0 }}>
-                    <polyline points="9 11 12 14 22 4"></polyline>
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                  </svg>
-                  <span style={{ fontSize: '0.95rem', color: '#e0e0e0' }}>{task}</span>
-                </li>
-              ))}
-            </ul>
-            
-            <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '20px 0' }}></div>
-            
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginTop: '15px'
-            }}>
-              <div style={{ 
-                fontSize: '0.9rem', 
-                color: '#b8b8b8',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px'
-              }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                {videoIndex + 1} / {allVideos.length}
-              </div>
-              
-              <a 
-                href={currentVideo.link} 
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(196,130,252,0.2)',
-                  color: '#c482fc',
-                  padding: '8px 15px',
-                  borderRadius: '8px',
-                  fontSize: '0.9rem',
-                  fontWeight: '600',
-                  textDecoration: 'none',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(196,130,252,0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(196,130,252,0.2)';
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15 3 21 3 21 9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-                Voir plus
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Grille de toutes les vidéos */}
-      <div style={{ width: '100%', maxWidth: '1200px', marginTop: '80px', padding: '0 20px', position: 'relative' }}>
-        {/* Titre de section avec élément décoratif */}
-        <div style={{ textAlign: 'center', position: 'relative', marginBottom: '3rem' }}>
-          <div style={{
-            position: 'absolute',
-            top: '-15px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '40px',
-            height: '2px',
-            background: 'rgba(196,130,252,0.5)'
-          }}></div>
-          
-          <h2 style={{ 
-            color: 'white', 
-            fontSize: '2.25rem', 
-            marginBottom: '1rem', 
-            fontWeight: '600',
-            letterSpacing: '1px'
-          }}>
-            Tous les projets
-          </h2>
-          
-          <p style={{
-            color: '#b8b8b8',
-            fontSize: '1rem',
-            maxWidth: '600px',
-            margin: '0 auto'
-          }}>
-            Cliquez sur une vignette pour afficher la vidéo dans le lecteur principal
-          </p>
-        </div>
-        
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', 
-          gap: '2rem',
-          width: '100%'
-        }}>
-          {allVideos.map((video, idx) => (
-            <div 
-              key={idx} 
-              onClick={() => {
-                // Afficher directement la vidéo sélectionnée dans le carousel
-                setCurrentVideo(video);
-                setVideoIndex(idx);
-                
-                // Scroll to top to see the video - plus précis avec l'ID
-                document.getElementById('videoPlayer').scrollIntoView({ 
-                  behavior: 'smooth', 
-                  block: 'start' 
-                });
-              }}
+        {allVideos && allVideos.length > 0 && (
+          <>
+            <button
+              onClick={goLeft}
+              aria-label="Précédent"
               style={{
-                cursor: 'pointer',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                background: '#181818',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-                transition: 'all 0.4s ease',
-                position: 'relative',
-                height: '380px', // Format vertical
-                transform: 'translateY(0)',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: '0 15px 30px rgba(0,0,0,0.3)'
-                }
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-10px)';
-                e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
-                // Trouver la vidéo et la jouer
-                const videoElement = e.currentTarget.querySelector('video');
-                if (videoElement) videoElement.play();
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-                // Trouver la vidéo et la mettre en pause
-                const videoElement = e.currentTarget.querySelector('video');
-                if (videoElement) videoElement.pause();
-              }}
-            >
-              {/* Numéro de projet */}
-              <div style={{
                 position: 'absolute',
-                top: '15px',
-                left: '15px',
-                backgroundColor: 'rgba(0,0,0,0.6)',
-                color: 'white',
+                left: '25%',
+                top: '280px',
+                transform: 'translateX(-50%)',
+                zIndex: 100,
+                background: 'rgba(0,0,0,0.5)',
+                border: 'none',
+                width: 54,
+                height: 54,
                 borderRadius: '50%',
-                width: '30px',
-                height: '30px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '0.8rem',
-                fontWeight: 'bold',
-                zIndex: 2
-              }}>
-                {idx + 1}
+                cursor: 'pointer',
+                outline: 'none',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(196,130,252,0.3)';
+                e.currentTarget.style.transform = 'translateX(-50%) scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
+                e.currentTarget.style.transform = 'translateX(-50%) scale(1)';
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              onClick={goRight}
+              aria-label="Suivant"
+              style={{
+                position: 'absolute',
+                right: '25%',
+                top: '280px',
+                transform: 'translateX(50%)',
+                zIndex: 100,
+                background: 'rgba(0,0,0,0.5)',
+                border: 'none',
+                width: 54,
+                height: 54,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                outline: 'none',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(196,130,252,0.3)';
+                e.currentTarget.style.transform = 'translateX(50%) scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
+                e.currentTarget.style.transform = 'translateX(50%) scale(1)';
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </button>
+
+            {/* Mise en page pour le lecteur principal et les détails */}
+            <div style={{ 
+              width: '100%', 
+              maxWidth: '800px', 
+              display: 'flex', 
+              flexDirection: 'row', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              flexWrap: 'wrap',
+              gap: '30px'
+            }}>
+              {/* Vidéo centrale */}
+              <div style={{ width: 320, height: 560, position: 'relative', zIndex: 2 }}>
+                <CarouselVideo
+                  video={currentVideo}
+                  isActive={true}
+                  style={{ width: 320, height: 560, boxShadow: '0 8px 32px rgba(52,58,64,0.18)' }}
+                />
               </div>
               
-              <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                <video
-                  src={video.cloudinarySrc || video.src}
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'cover',
-                    borderRadius: '16px'
-                  }}
-                  muted
-                  loop
-                  playsInline
-                />
-                
-                {/* Overlay au survol avec effet de transition */}
-                <div style={{ 
-                  position: 'absolute', 
-                  bottom: 0, 
-                  left: 0, 
-                  right: 0,
-                  top: 0,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%)',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  padding: '20px'
+              {/* Section des détails du projet */}
+              <div style={{ 
+                width: '300px', 
+                padding: '25px', 
+                background: 'rgba(15,15,26,0.5)', 
+                borderRadius: '20px',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                color: 'white'
+              }}>
+                <h3 style={{ 
+                  fontSize: '1.5rem', 
+                  fontWeight: 'bold', 
+                  marginBottom: '15px',
+                  color: '#c482fc'
                 }}>
-                  <h3 style={{
-                    color: 'white',
-                    fontSize: '1.1rem',
-                    fontWeight: '600',
-                    marginBottom: '5px'
-                  }}>
-                    {video.fullTitle || video.description}
-                  </h3>
-                  
-                  <div style={{
+                  {currentVideo?.fullTitle || currentVideo?.description || 'Projet vidéo'}
+                </h3>
+                
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '15px 0' }}></div>
+                
+                <h4 style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: 'bold', 
+                  marginBottom: '10px',
+                  color: '#ffffff'
+                }}>
+                  Tâches réalisées:
+                </h4>
+                
+                <ul style={{ 
+                  listStyleType: 'none', 
+                  padding: '0', 
+                  margin: '0' 
+                }}>
+                  {/* Tâches spécifiques à la vidéo actuelle */}
+                  {currentVideo?.tasks && currentVideo?.tasks.map((task, index) => (
+                    <li key={index} style={{ 
+                      margin: '8px 0', 
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '10px'
+                    }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c482fc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '3px', flexShrink: 0 }}>
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                      </svg>
+                      <span style={{ fontSize: '0.95rem', color: '#e0e0e0' }}>{task}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '20px 0' }}></div>
+                
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginTop: '15px'
+                }}>
+                  <div style={{ 
+                    fontSize: '0.9rem', 
+                    color: '#b8b8b8',
                     display: 'flex',
                     alignItems: 'center',
-                    marginTop: '8px'
+                    gap: '5px'
                   }}>
-                    <div style={{
-                      backgroundColor: 'rgba(196,130,252,0.2)',
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    {videoIndex + 1} / {allVideos.length}
+                  </div>
+                  
+                  <a 
+                    href={currentVideo?.link || '#'} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'rgba(196,130,252,0.2)',
                       color: '#c482fc',
-                      borderRadius: '4px',
-                      padding: '4px 8px',
-                      fontSize: '0.75rem',
-                      marginRight: '8px'
+                      padding: '8px 15px',
+                      borderRadius: '8px',
+                      fontSize: '0.9rem',
+                      fontWeight: '600',
+                      textDecoration: 'none',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(196,130,252,0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(196,130,252,0.2)';
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Voir plus
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Message si aucune vidéo n'est disponible */}
+        {!isLoading && (!allVideos || allVideos.length === 0) && (
+          <div style={{
+            textAlign: 'center',
+            padding: '30px',
+            background: 'rgba(15,15,26,0.5)',
+            borderRadius: '20px',
+            maxWidth: '400px',
+            margin: '0 auto'
+          }}>
+            <h3 style={{ color: '#c482fc', marginBottom: '10px' }}>Aucune vidéo disponible</h3>
+            <p style={{ color: '#b8b8b8' }}>Les vidéos n'ont pas pu être chargées depuis Cloudinary. Veuillez réessayer plus tard.</p>
+          </div>
+        )}
+      </div>
+      
+      {/* Grille de toutes les vidéos */}
+      {allVideos && allVideos.length > 0 && (
+        <div style={{ width: '100%', maxWidth: '1200px', marginTop: '80px', padding: '0 20px', position: 'relative' }}>
+          {/* Titre de section avec élément décoratif */}
+          <div style={{ textAlign: 'center', position: 'relative', marginBottom: '3rem' }}>
+            <div style={{
+              position: 'absolute',
+              top: '-15px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '40px',
+              height: '2px',
+              background: 'rgba(196,130,252,0.5)'
+            }}></div>
+            
+            <h2 style={{ 
+              color: 'white', 
+              fontSize: '2.25rem', 
+              marginBottom: '1rem', 
+              fontWeight: '600',
+              letterSpacing: '1px'
+            }}>
+              Tous les projets
+            </h2>
+            
+            <p style={{
+              color: '#b8b8b8',
+              fontSize: '1rem',
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
+              Cliquez sur une vignette pour afficher la vidéo dans le lecteur principal
+            </p>
+          </div>
+          
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', 
+            gap: '2rem',
+            width: '100%'
+          }}>
+            {allVideos.map((video, idx) => (
+              <div 
+                key={idx} 
+                onClick={() => {
+                  // Afficher directement la vidéo sélectionnée dans le carousel
+                  setCurrentVideo(video);
+                  setVideoIndex(idx);
+                  
+                  // Scroll to top to see the video - plus précis avec l'ID
+                  document.getElementById('videoPlayer').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                  });
+                }}
+                style={{
+                  cursor: 'pointer',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  background: '#181818',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                  transition: 'all 0.4s ease',
+                  position: 'relative',
+                  height: '380px', // Format vertical
+                  transform: 'translateY(0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px)';
+                  e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
+                  // Trouver la vidéo et la jouer
+                  const videoElement = e.currentTarget.querySelector('video');
+                  if (videoElement) videoElement.play();
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+                  // Trouver la vidéo et la mettre en pause
+                  const videoElement = e.currentTarget.querySelector('video');
+                  if (videoElement) videoElement.pause();
+                }}
+              >
+                {/* Numéro de projet */}
+                <div style={{
+                  position: 'absolute',
+                  top: '15px',
+                  left: '15px',
+                  backgroundColor: 'rgba(0,0,0,0.6)',
+                  color: 'white',
+                  borderRadius: '50%',
+                  width: '30px',
+                  height: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.8rem',
+                  fontWeight: 'bold',
+                  zIndex: 2
+                }}>
+                  {idx + 1}
+                </div>
+                
+                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                  <video
+                    src={video.cloudinarySrc}
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover',
+                      borderRadius: '16px'
+                    }}
+                    poster={video.cloudinaryThumbnail}
+                    muted
+                    loop
+                    playsInline
+                  />
+                  
+                  {/* Overlay au survol avec effet de transition */}
+                  <div style={{ 
+                    position: 'absolute', 
+                    bottom: 0, 
+                    left: 0, 
+                    right: 0,
+                    top: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%)',
+                    borderRadius: '16px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    padding: '20px'
+                  }}>
+                    <h3 style={{
+                      color: 'white',
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      marginBottom: '5px'
                     }}>
-                      Vidéo
-                    </div>
+                      {video.fullTitle || video.description}
+                    </h3>
                     
                     <div style={{
-                      color: '#b8b8b8',
-                      fontSize: '0.8rem',
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      marginTop: '8px'
                     }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px' }}>
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                      </svg>
-                      {idx + 1} / {allVideos.length}
+                      <div style={{
+                        backgroundColor: 'rgba(196,130,252,0.2)',
+                        color: '#c482fc',
+                        borderRadius: '4px',
+                        padding: '4px 8px',
+                        fontSize: '0.75rem',
+                        marginRight: '8px'
+                      }}>
+                        Vidéo
+                      </div>
+                      
+                      <div style={{
+                        color: '#b8b8b8',
+                        fontSize: '0.8rem',
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px' }}>
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        {idx + 1} / {allVideos.length}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       
       {/* Section CTA (Call to Action) */}
       <div style={{
@@ -985,14 +1040,41 @@ const Work = () => {
 
 // Composant vidéo du carrousel
 function CarouselVideo({ video, isActive, style }) {
+  // Si la vidéo est indéfinie, retourner un placeholder
+  if (!video) {
+    return (
+      <div style={{
+        borderRadius: 24,
+        overflow: 'hidden',
+        background: '#0f0f1a',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+        position: 'relative',
+        display: 'block',
+        transition: 'all 0.4s ease',
+        ...style
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+          color: '#ffffff',
+          fontSize: '14px'
+        }}>
+          Chargement...
+        </div>
+      </div>
+    );
+  }
+
   const videoRef = React.useRef(null);
   const [hovered, setHovered] = React.useState(false);
-  const prevSrcRef = React.useRef(video.src);
-  const [useExternalSrc, setUseExternalSrc] = React.useState(false);
+  const prevSrcRef = React.useRef(video.cloudinarySrc);
   const [loading, setLoading] = React.useState(true);
   
-  // Déterminer la source vidéo à utiliser (Cloudinary ou locale)
-  const videoSrc = video.cloudinarySrc || video.src;
+  // Déterminer la source vidéo à utiliser (Cloudinary uniquement)
+  const videoSrc = video?.cloudinarySrc;
 
   // Maintenir l'état de lecture de la vidéo lors des changements
   React.useEffect(() => {
@@ -1016,7 +1098,7 @@ function CarouselVideo({ video, isActive, style }) {
 
   return (
     <a
-      href={video.link}
+      href={video?.link || '#'}
       target="_blank"
       rel="noopener noreferrer"
       style={{
@@ -1109,6 +1191,7 @@ function CarouselVideo({ video, isActive, style }) {
       <video
         ref={videoRef}
         src={videoSrc}
+        poster={video.cloudinaryThumbnail}
         style={{ 
           width: '100%', 
           height: '100%', 
@@ -1125,12 +1208,8 @@ function CarouselVideo({ video, isActive, style }) {
         onLoadedData={() => setLoading(false)}
         onError={(e) => {
           console.error("Erreur de chargement vidéo:", e);
-          // Si la vidéo Cloudinary échoue, tenter avec la source locale
-          if (video.cloudinarySrc && videoSrc === video.cloudinarySrc) {
-            console.log("Tentative avec source locale...");
-            setUseExternalSrc(true);
-            prevSrcRef.current = video.src;
-          }
+          // Noter l'erreur mais continuer avec la source Cloudinary actuelle
+          setLoading(false);
         }}
       />
     </a>

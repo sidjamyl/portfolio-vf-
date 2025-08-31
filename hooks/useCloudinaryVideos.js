@@ -1,51 +1,51 @@
 // hooks/useCloudinaryVideos.js
 import { useState, useEffect } from 'react';
 
-// Hook personnalisé pour charger les données de mapping des vidéos
+// Hook personnalisé pour charger les vidéos depuis Cloudinary
 export function useCloudinaryVideos(videosData) {
-  const [videos, setVideos] = useState(videosData);
+  const [videos, setVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function loadVideoMapping() {
+    function generateCloudinaryUrls() {
       try {
-        // Essayer de charger le fichier de mapping
-        const response = await fetch('/video-mapping.json');
-        
-        if (!response.ok) {
-          // Si le fichier n'existe pas, continuer avec les données locales
-          console.log('Fichier de mapping non trouvé, utilisation des sources locales');
-          setIsLoading(false);
-          return;
-        }
-        
-        const videoMapping = await response.json();
-        
-        // Mettre à jour les sources de vidéo avec les URLs Cloudinary
-        const updatedVideos = videosData.map(video => {
-          const mapping = videoMapping.find(m => m.originalName === video.src.substring(1));
-          if (mapping) {
-            return {
-              ...video,
-              cloudinarySrc: mapping.cloudinaryUrl,
-              // Garder la source originale comme fallback
-              src: video.src
-            };
-          }
-          return video;
+        // Nom du cloud Cloudinary (normalement stocké dans .env)
+        const cloudName = 'dtjsggrqr'; // Le cloud_name de votre compte Cloudinary
+        const folder = 'portfolio-videos'; // Le dossier où sont stockées vos vidéos
+
+        // Générer les URLs Cloudinary pour chaque vidéo
+        const videosWithCloudinaryUrls = videosData.map(video => {
+          // Extraire le nom du fichier sans le slash initial et sans l'extension
+          const fileName = video.src.substring(1);
+          const fileNameWithoutExt = fileName.split('.')[0];
+          
+          // Générer l'URL Cloudinary
+          const cloudinaryUrl = `https://res.cloudinary.com/${cloudName}/video/upload/${folder}/${fileNameWithoutExt}.mp4`;
+          
+          // Générer l'URL de la miniature (thumbnail)
+          const thumbnailUrl = `https://res.cloudinary.com/${cloudName}/video/upload/c_fill,h_480,w_270/${folder}/${fileNameWithoutExt}.jpg`;
+          
+          return {
+            ...video,
+            cloudinarySrc: cloudinaryUrl,
+            cloudinaryThumbnail: thumbnailUrl,
+            // Nous gardons src comme référence, mais il ne sera plus utilisé
+            src: video.src
+          };
         });
         
-        setVideos(updatedVideos);
+        setVideos(videosWithCloudinaryUrls);
+        setIsLoading(false);
       } catch (err) {
-        console.error('Erreur lors du chargement du mapping des vidéos:', err);
+        console.error('Erreur lors de la génération des URLs Cloudinary:', err);
         setError(err);
-      } finally {
         setIsLoading(false);
       }
     }
     
-    loadVideoMapping();
+    // Lancer la génération des URLs
+    generateCloudinaryUrls();
   }, [videosData]);
   
   return { videos, isLoading, error };
