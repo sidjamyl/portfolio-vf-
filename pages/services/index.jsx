@@ -119,11 +119,11 @@ const Services = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary/30 py-24 flex items-center overflow-y-auto">
+    <div className="min-h-screen bg-primary/30 py-12 md:py-16 lg:py-24 flex items-center overflow-y-auto">
     
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Réseaux sociaux d'abord */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-8 md:mb-12">
           {services.map((service, i) => (
             <motion.div
               key={service.name}
@@ -131,13 +131,13 @@ const Services = () => {
               initial="hidden"
               animate="show"
               exit="hidden"
-              className={`flex flex-col items-center bg-black/40 border border-accent rounded-2xl p-8 shadow-lg hover:scale-[1.03] transition cursor-pointer ${selected === i ? "ring-2 ring-accent" : ""}`}
+              className={`flex flex-col items-center bg-black/40 border border-accent rounded-2xl p-4 md:p-6 lg:p-8 shadow-lg hover:scale-[1.03] transition cursor-pointer ${selected === i ? "ring-2 ring-accent" : ""}`}
               onClick={() => setSelected(selected === i ? null : i)}
             >
-              <service.icon className="text-5xl text-accent mb-4" />
-              <h2 className="text-2xl font-bold text-white mb-2">{service.name}</h2>
-              <p className="text-white/80 text-center mb-4">Découvrez nos packs pour {service.name}.</p>
-              <button className="mt-auto px-6 py-2 rounded bg-accent text-white font-semibold hover:bg-accent/80 transition">Voir les packs</button>
+              <service.icon className="text-3xl md:text-4xl lg:text-5xl text-accent mb-3 md:mb-4" />
+              <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white mb-2 text-center">{service.name}</h2>
+              <p className="text-white/80 text-center mb-3 md:mb-4 text-sm md:text-base">Découvrez nos packs pour {service.name}.</p>
+              <button className="mt-auto px-4 md:px-6 py-2 rounded bg-accent text-white font-semibold hover:bg-accent/80 transition text-sm md:text-base">Voir les packs</button>
             </motion.div>
           ))}
         </div>
@@ -148,14 +148,14 @@ const Services = () => {
           initial="hidden"
           animate="show"
           exit="hidden"
-          className="mb-12 text-center"
+          className="mb-8 md:mb-12 text-center px-4"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
             <span role="img" aria-label="globe">🌍</span> Nos services <span className="text-accent">.</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm md:text-base text-white/80">
-            Nous proposons une gamme de services adaptés aux différentes plateformes sociales, avec des packs modulables selon vos besoins et vos objectifs.<br />
-            Que ce soit pour Instagram, TikTok ou LinkedIn, nous concevons et réalisons du contenu original (scripts, tournage, montage, designs), mettons en place des plans de communication et assurons la gestion quotidienne des comptes.<br />
+          <p className="max-w-4xl mx-auto text-xs sm:text-sm md:text-base text-white/80 leading-relaxed">
+            Nous proposons une gamme de services adaptés aux différentes plateformes sociales, avec des packs modulables selon vos besoins et vos objectifs.<br className="hidden sm:block" />
+            Que ce soit pour Instagram, TikTok ou LinkedIn, nous concevons et réalisons du contenu original (scripts, tournage, montage, designs), mettons en place des plans de communication et assurons la gestion quotidienne des comptes.<br className="hidden sm:block" />
             Nous travaillons avec notre propre matériel (téléphone, trépieds, micros) et gérons également les campagnes sponsorisées : le suivi et la stratégie sont inclus, mais le budget publicitaire reste à la charge du client.
           </p>
         </motion.div>
@@ -163,13 +163,13 @@ const Services = () => {
         {/* Packs modal */}
         {selected !== null && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-2 overflow-y-auto">
-            <div className="bg-primary/90 rounded-2xl p-3 md:p-6 max-w-4xl w-full shadow-2xl relative flex flex-col my-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl md:text-3xl font-bold text-accent pr-2">
+            <div className="bg-primary/90 rounded-2xl p-3 md:p-6 max-w-7xl w-full shadow-2xl relative flex flex-col my-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4 sticky top-0 bg-primary/90 py-2 -mx-3 md:-mx-6 px-3 md:px-6 rounded-t-2xl">
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-accent pr-2">
                   Packs {services[selected].name}
                 </h3>
                 <button
-                  className="ml-2 px-3 py-1 md:px-4 md:py-2 rounded bg-accent text-white font-semibold hover:bg-accent/80 transition flex-shrink-0"
+                  className="ml-2 px-3 py-1 md:px-4 md:py-2 rounded bg-accent text-white font-semibold hover:bg-accent/80 transition flex-shrink-0 text-sm md:text-base"
                   onClick={() => setSelected(null)}
                   aria-label="Retour"
                 >
@@ -178,16 +178,16 @@ const Services = () => {
               </div>
               
               {/* Container des packs */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 w-full overflow-hidden">
                 {services[selected].packs.map((pack, j) => (
-                  <div key={pack.name} className="rounded-xl border border-accent p-3 bg-black/30 shadow-lg flex flex-col h-auto">
-                    <div className="flex flex-col mb-2 w-full">
-                      <span className="text-base font-bold text-white mb-1 break-words hyphens-auto">{pack.name}</span>
-                      <span className="text-sm font-semibold text-accent mb-2 break-words">{pack.price}</span>
+                  <div key={pack.name} className="rounded-xl border border-accent p-3 md:p-4 bg-black/30 shadow-lg flex flex-col h-auto min-h-[200px]">
+                    <div className="flex flex-col mb-3 w-full">
+                      <span className="text-sm sm:text-base md:text-lg font-bold text-white mb-2 break-words hyphens-auto leading-tight">{pack.name}</span>
+                      <span className="text-xs sm:text-sm md:text-base font-semibold text-accent mb-3 break-words leading-tight">{pack.price}</span>
                     </div>
-                    <ul className="list-disc pl-5 text-white/80 text-xs space-y-1 w-full">
+                    <ul className="list-disc pl-4 md:pl-5 text-white/80 text-xs sm:text-sm space-y-1.5 w-full flex-grow">
                       {pack.details.map((detail, k) => (
-                        <li key={k} className="break-words hyphens-auto">{detail}</li>
+                        <li key={k} className="break-words hyphens-auto leading-relaxed">{detail}</li>
                       ))}
                     </ul>
                   </div>

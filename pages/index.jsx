@@ -8,16 +8,16 @@ import { fadeIn } from "../variants";
 
 const Home = () => {
   return (
-    <div className="bg-primary/60 h-full">
+    <div className="bg-primary/60 min-h-screen">
       {/* text */}
-      <div className="w-full h-full bg-gradient-to-r from-primary/10 via-black/30 to-black/10">
-        <div className="text-center flex flex-col justify-center xl:pt-40 xl:text-left h-full container mx-auto relative">
-          {/* Image on the right */}
+      <div className="w-full min-h-screen bg-gradient-to-r from-primary/10 via-black/30 to-black/10">
+        <div className="text-center flex flex-col justify-center xl:pt-40 xl:text-left min-h-screen container mx-auto relative px-4 sm:px-6 lg:px-8">
+          {/* Image on the right - Desktop only */}
           <div className="absolute right-[20px] top-1/2 transform -translate-y-1/2 hidden xl:block z-10">
             <img 
               src="/IMG_1302.JPG" 
               alt="Profile image" 
-              className="w-auto h-[400px] object-contain rounded-lg shadow-lg"
+              className="w-auto h-[350px] lg:h-[400px] object-contain rounded-lg shadow-lg"
             />
           </div>
           
@@ -27,10 +27,12 @@ const Home = () => {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="h1 z-20"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4 sm:mb-6 z-20"
           >
-            Sid Jamyl<br /> & {" "}
-            <span className="text-accent"> Medjani Mehdi </span>
+            <span className="block sm:inline">Sid Jamyl</span>
+            <br className="hidden sm:block" />
+            <span className="block sm:inline"> & </span>
+            <span className="text-accent block sm:inline">Medjani Mehdi</span>
           </motion.h1>
 
           {/* subtitle */}
@@ -39,22 +41,22 @@ const Home = () => {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="max-w-sm xl:max-w-[450px] mx-auto xl:mx-0 mb-10 xl:mb-16 z-20"
+            className="text-sm sm:text-base lg:text-lg max-w-xs sm:max-w-md md:max-w-lg xl:max-w-[450px] mx-auto xl:mx-0 mb-8 sm:mb-10 xl:mb-16 z-20 leading-relaxed text-white/90"
           >
             Nous sommes deux étudiants algériens passionnés par la création de contenu digital. Nous réalisons principalement des vidéos, des visuels et du contenu écrit pour dynamiser la présence en ligne de nos clients. Notre expertise s’étend à la gestion complète des réseaux sociaux, incluant la planification, la publication et l’interaction avec la communauté. Que vous soyez une entreprise ou un particulier, nous vous accompagnons pour développer votre image et renforcer votre communication digitale.
           </motion.p>
 
           {/* Mobile image (centered) */}
-          <div className="flex justify-center mb-6 xl:hidden">
+          <div className="flex justify-center mb-6 sm:mb-8 xl:hidden">
             <img 
               src="/IMG_1302.JPG" 
               alt="Profile image" 
-              className="w-auto h-[250px] object-contain rounded-lg shadow-lg"
+              className="w-auto h-[200px] sm:h-[250px] md:h-[300px] object-contain rounded-lg shadow-lg"
             />
           </div>
 
           {/* btn */}
-          <div className="flex justify-center xl:hidden relative">
+          <div className="flex justify-center xl:hidden relative mb-8">
             <ProjectsBtn />
           </div>
           <motion.div
